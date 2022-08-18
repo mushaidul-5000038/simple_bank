@@ -9,20 +9,20 @@ import (
 //Provides all functions to execute db queries and transactions
 type Store struct {
 	*Queries
-	db *sql.DB
+	dataB *sql.DB
 }
 
 // creates a new store
-func NewStore(db *sql.DB) *Store {
+func NewStore(dataBase *sql.DB) *Store {
 	return &Store{
-		db: db,
-		Queries: New(db),
+		dataB: dataBase,
+		Queries: New(dataBase),
 	}
 }
 
 // executes a function within a database transaction
 func (store *Store) execTx(ctx context.Context, fn func(*Queries) error) error {
-	tx, err := store.db.BeginTx(ctx,nil)
+	tx, err := store.dataB.BeginTx(ctx,nil)
 
 	if err != nil {
 		return err
